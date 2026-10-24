@@ -1,0 +1,9 @@
+{
+  "id": "display-lock",
+  "name": "Display Lock",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "笔记锁定（pin）后，右上角 ⋯ 按钮变红，一眼看出当前笔记是否锁定。",
+  "author": "JK",
+  "isDesktopOnly": false
+}
