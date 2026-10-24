@@ -13,4 +13,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Color the button red while pinned, so the state is visible at a glance on mobile.
 - Restore the original icon and color when the note is unpinned or the plugin is unloaded.
 
-[1.0.0]: https://github.com/OWNER/display-lock/releases/tag/1.0.0
+[1.0.0]: https://github.com/nicholaskj/display-lock/releases/tag/1.0.0
