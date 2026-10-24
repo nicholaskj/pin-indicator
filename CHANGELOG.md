@@ -19,4 +19,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This plugin does not lock or protect anything. It only makes Obsidian's built-in
   pinned state visible. Obsidian calls this feature **Pin** in English and **锁定** in Chinese.
 
-[1.0.0]: https://github.com/nicholaskj/display-lock/releases/tag/1.0.0
+[1.0.0]: https://github.com/nicholaskj/pin-indicator/releases/tag/1.0.0
