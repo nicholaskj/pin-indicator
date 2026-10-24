@@ -1,4 +1,4 @@
-# Display Lock
+# Pin Indicator
 
 **[English](README.md) | [简体中文](README.zh-CN.md)**
 
@@ -46,15 +46,15 @@ Nothing to configure.
 
 ### From the community directory
 
-Search for **Display Lock** in **Settings → Community plugins → Browse**.
+Search for **Pin Indicator** in **Settings → Community plugins → Browse**.
 
 ### Manually
 
 1. Download `main.js`, `manifest.json` and `styles.css` from the [latest release](../../releases/latest).
-2. Create the folder `<your vault>/.obsidian/plugins/display-lock/`.
+2. Create the folder `<your vault>/.obsidian/plugins/pin-indicator/`.
 3. Copy the three files into it.
 4. Reload Obsidian.
-5. Enable **Display Lock** in **Settings → Community plugins**.
+5. Enable **Pin Indicator** in **Settings → Community plugins**.
 
 ### From source
 
@@ -66,7 +66,7 @@ There is no build step — `main.js` is the source. Copy the three files as desc
 
 Obsidian exposes the more options button of each view as `view.moreOptionsButtonEl`, and each leaf carries a `pinned` flag. The plugin reads that flag, swaps the button icon with `setIcon`, and toggles a CSS class that colors the button.
 
-It listens on each leaf's `pinned-change` event, plus the workspace `layout-change` and `active-leaf-change` events, and re-applies the state once more shortly after a change in case Obsidian's own header update overwrites the icon. There is no polling and no background work.
+It listens on each leaf's `pinned-change` event, plus the workspace `layout-change` and `active-leaf-change` events, and re-applies the state a couple more times shortly after a change in case Obsidian's own header update overwrites the icon. There is no polling and no background work.
 
 ### Why not a CSS snippet
 
@@ -81,6 +81,12 @@ Obsidian only applies `.is-pinned` to side drawers. There is no ancestor class o
 - No third-party dependencies — the only `require` is the host `obsidian` module.
 - No network access, no telemetry, no filesystem access.
 - No settings, no data stored.
+
+---
+
+## Naming
+
+Obsidian's own UI calls this feature **Pin** in English and **锁定** in Chinese. Both mean the same thing: the tab is kept from being closed. This plugin does not lock or protect anything — it only makes the pinned state visible.
 
 ---
 

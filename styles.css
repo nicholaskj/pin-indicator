@@ -1,16 +1,16 @@
-/* Display Lock —— 锁定状态下把右上角 ⋯ 变红 */
+/* Pin Indicator —— 锁定状态下把右上角 ⋯ 变成锁图标并染红 */
 
-.view-action.jk-locked {
+.view-action.pin-indicator-active {
   color: var(--color-red, #e93147) !important;
 }
 
 /* 图标本体用 currentColor 描边，跟着变色 */
-.view-action.jk-locked svg {
+.view-action.pin-indicator-active svg {
   color: var(--color-red, #e93147) !important;
   stroke: currentColor !important;
 }
 
 /* 触摸时给一点反馈，手机上更容易察觉 */
-.view-action.jk-locked:active {
+.view-action.pin-indicator-active:active {
   background-color: rgba(233, 49, 71, 0.12);
 }

@@ -1,5 +1,5 @@
 /*
- * Display Lock
+ * Pin Indicator · 笔记锁定指示器
  *
  * 笔记「锁定」（= Obsidian 的 pin）之后，右上角那个 ⋯ 按钮变成锁图标 + 红色，
  * 一眼就看得出来当前这篇笔记是不是锁着的。
@@ -20,12 +20,12 @@
 
 const { Plugin, setIcon } = require("obsidian");
 
-const CSS_CLASS = "jk-locked";
-const DATA_ATTR = "data-jk-locked";
+const CSS_CLASS = "pin-indicator-active";
+const DATA_ATTR = "data-pin-indicator";
 const ICON_PINNED = "lock";
 const ICON_NORMAL = "more-vertical";
 
-module.exports = class DisplayLockPlugin extends Plugin {
+module.exports = class PinIndicatorPlugin extends Plugin {
   onload() {
     // 已经挂过监听器的 leaf，避免重复注册
     this._hooked = new WeakSet();

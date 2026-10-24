@@ -1,4 +1,4 @@
-# Display Lock · 笔记锁定指示器
+# Pin Indicator · 笔记锁定指示器
 
 **[English](README.md) | [简体中文](README.zh-CN.md)**
 
@@ -10,7 +10,7 @@
 
 ## 解决什么问题
 
-Obsidian 的**锁定**功能（英文 Pin）作用在标签页上，防止标签被误关。但唯一的状态提示只是标签栏里一个很小的图标。
+Obsidian 的**锁定**功能（英文叫 Pin）作用在标签页上，防止标签被误关。但唯一的状态提示只是标签栏里一个很小的图标。
 
 手机屏幕窄，标签栏被压缩，那个图标基本看不见 —— 你没法一眼判断当前这篇笔记到底锁没锁。
 
@@ -46,15 +46,15 @@ Obsidian 的**锁定**功能（英文 Pin）作用在标签页上，防止标签
 
 ### 从插件市场安装
 
-**设置 → 第三方插件 → 浏览**，搜索 **Display Lock**。
+**设置 → 第三方插件 → 浏览**，搜索 **Pin Indicator**。
 
 ### 手动安装
 
 1. 从[最新 release](../../releases/latest) 下载 `main.js`、`manifest.json`、`styles.css` 三个文件
-2. 在自己的库里建目录 `<你的库>/.obsidian/plugins/display-lock/`
+2. 在自己的库里建目录 `<你的库>/.obsidian/plugins/pin-indicator/`
 3. 把三个文件拷进去
 4. 重启 Obsidian
-5. 在**设置 → 第三方插件**里启用 **Display Lock**
+5. 在**设置 → 第三方插件**里启用 **Pin Indicator**
 
 ### 从源码安装
 
@@ -77,6 +77,14 @@ Obsidian 给每个视图都挂了 `view.moreOptionsButtonEl`（也就是右上�
 Obsidian 只给**侧边抽屉**加了 `.is-pinned`。标签页本身没有对应的祖先 class，所以纯 CSS 选不到「已锁定标签页里的那个 `⋯` 按钮」。
 
 `:has()` 在手机端不保证可用，不能依赖它 —— 这是硬约束。
+
+---
+
+## 关于名字
+
+Obsidian 中文界面把这个功能叫**锁定**，英文界面叫 **Pin**，指的是同一件事：防止标签页被误关。
+
+**这个插件本身不锁、也不保护任何东西**，它只负责把「已锁定」这个状态显示出来，让你一眼看见。
 
 ---
 

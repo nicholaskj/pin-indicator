@@ -12,5 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show a lock icon in the note's more options button while the note is pinned.
 - Color the button red while pinned, so the state is visible at a glance on mobile.
 - Restore the original icon and color when the note is unpinned or the plugin is unloaded.
+- English and Chinese documentation.
+
+### Notes
+
+- This plugin does not lock or protect anything. It only makes Obsidian's built-in
+  pinned state visible. Obsidian calls this feature **Pin** in English and **锁定** in Chinese.
 
 [1.0.0]: https://github.com/nicholaskj/display-lock/releases/tag/1.0.0
