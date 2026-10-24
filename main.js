@@ -18,10 +18,12 @@
  *   纯 CSS 选不到「当前锁定标签页里的 ⋯」。（:has() 在手机端不保证可用，不能依赖）
  */
 
-const { Plugin } = require("obsidian");
+const { Plugin, setIcon } = require("obsidian");
 
 const CSS_CLASS = "jk-locked";
 const DATA_ATTR = "data-jk-locked";
+const ICON_PINNED = "lock";
+const ICON_NORMAL = "more-vertical";
 
 module.exports = class DisplayLockPlugin extends Plugin {
   async onload() {
@@ -35,6 +37,14 @@ module.exports = class DisplayLockPlugin extends Plugin {
 
       const pinned = !!leaf.pinned;
       btn.classList.toggle(CSS_CLASS, pinned);
+
+      // ★ 换图标：锁定 → 锁；未锁定 → 原来的三个点
+      //   只在状态真的变了时才重设，避免每次刷新都把图标重建一遍
+      const want = pinned ? ICON_PINNED : ICON_NORMAL;
+      if (btn.getAttribute(DATA_ATTR + "-icon") !== want) {
+        setIcon(btn, want);
+        btn.setAttribute(DATA_ATTR + "-icon", want);
+      }
 
       if (pinned) {
         btn.setAttribute(DATA_ATTR, "1");
@@ -53,7 +63,13 @@ module.exports = class DisplayLockPlugin extends Plugin {
         // ★ 关键：pinned-change 在 leaf 上，不在 workspace 上
         if (!this._hooked.has(leaf)) {
           this._hooked.add(leaf);
-          leaf.on("pinned-change", () => this.refreshLeaf(leaf));
+          leaf.on("pinned-change", () => {
+            this.refreshLeaf(leaf);
+            // Obsidian 在 pinned-change 之后还会跑 updateHeader()，
+            // 有可能把图标刷回去，隔一拍再补一次（幂等，不会死循环）
+            setTimeout(() => this.refreshLeaf(leaf), 150);
+            setTimeout(() => this.refreshLeaf(leaf), 600);
+          });
         }
       });
     };
@@ -82,7 +98,10 @@ module.exports = class DisplayLockPlugin extends Plugin {
       if (!btn) return;
       btn.classList.remove(CSS_CLASS);
       btn.removeAttribute(DATA_ATTR);
+      btn.removeAttribute(DATA_ATTR + "-icon");
       btn.removeAttribute("aria-description");
+      // 图标还原成三个点
+      try { setIcon(btn, ICON_NORMAL); } catch (e) {}
     });
     console.log("[display-lock] 已卸载");
   }
