@@ -1,0 +1,17 @@
+# 依赖
+node_modules/
+
+# 构建产物（如果要提交 main.js 再删掉这行）
+# main.js
+
+# 日志与临时文件
+*.log
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+
+# Obsidian 本地配置
+.obsidian/
