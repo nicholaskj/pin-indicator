@@ -90,6 +90,25 @@ Obsidian's own UI calls this feature **Pin** in English and **锁定** in Chines
 
 ---
 
+## Relationship to existing plugins
+
+Several community plugins deal with pinned notes, but none of them surface the native pinned state in the note itself.
+
+| Plugin | What it does | Why it is not the same |
+|---|---|---|
+| Pinned Tabs Customizer | Custom icons for pinned tabs | Styles the **tab bar**; desktop only |
+| Pinned Tabs Row · Pinned Tabs · Shrink pinned tabs · Pinned Tab Utils | Change how pinned tabs look or behave | Tab bar appearance |
+| Pin Enhancer · Pin Tab Guard · Real Pin | Prevent a pinned tab from being closed | Do not show the state |
+| Pins Save · Pinned Daily Notes | Restore pins after a restart | Does not show the current state |
+| Pinned Files · Pinit · Pinup · Pin to Top · Star Pins · Folder Pin | Pin items to the top of the file explorer | Maintain their **own** pin list, unrelated to Obsidian's native pin |
+| Pinned Notes · New Tab Pins | Pin notes to the ribbon or a launcher | Own list |
+
+Obsidian itself renders no pin indicator in a note's view header — the tab bar hint is the only cue, and on mobile that hint is effectively invisible.
+
+This plugin reads Obsidian's own `leaf.pinned` flag and reflects it on the note's more options button. It stores nothing and keeps no list of its own.
+
+---
+
 ## FAQ
 
 **Does it prevent the note from being closed?**

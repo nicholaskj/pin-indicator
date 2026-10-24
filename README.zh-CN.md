@@ -88,6 +88,25 @@ Obsidian 中文界面把这个功能叫**锁定**，英文界面叫 **Pin**，�
 
 ---
 
+## 和其他插件的区别
+
+市场上跟 pin 相关的插件有几十个，但**没有一个把原生锁定状态显示在当前笔记上**。
+
+| 插件 | 它做什么 | 为什么不是一回事 |
+|---|---|---|
+| Pinned Tabs Customizer | 给锁定的标签换自定义图标 | 改的是**标签栏**，而且仅桌面端 |
+| Pinned Tabs Row · Pinned Tabs · Shrink pinned tabs · Pinned Tab Utils | 改锁定标签的样子或行为 | 都在标签栏上 |
+| Pin Enhancer · Pin Tab Guard · Real Pin | 防止锁定标签被误关 | 不显示状态 |
+| Pins Save · Pinned Daily Notes | 重启后恢复锁定 | 不显示当前状态 |
+| Pinned Files · Pinit · Pinup · Pin to Top · Star Pins · Folder Pin | 把文件固定到文件夹顶部 | 用的是**它们自己的一套列表**，跟原生锁定无关 |
+| Pinned Notes · New Tab Pins | 固定到侧栏或启动页 | 同样是自己的列表 |
+
+**Obsidian 自己在笔记标题栏里根本不显示锁定状态** —— 唯一的提示在标签栏，而手机屏幕上那个提示基本看不见。
+
+这个插件读的是 Obsidian 自己的 `leaf.pinned` 状态，只把它反映到「更多选项」按钮上。**不存任何数据，也不维护自己的列表。**
+
+---
+
 ## 兼容性
 
 - 桌面端和手机端都能用（`isDesktopOnly: false`）
