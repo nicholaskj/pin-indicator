@@ -1,55 +1,72 @@
-# obsidian-display-lock
+# Display Lock
 
-Obsidian 显示锁定插件（开发中）
+Show a lock icon in the note's more options button while the note is pinned.
 
-## 要解决的问题
+Obsidian has a **Pin** feature (called 锁定 in the Chinese UI) that keeps a tab from being closed. The only visual hint that a note is pinned is a small icon in the tab bar — which is easy to miss, and on a phone the tab bar is so narrow that the hint is effectively invisible.
 
-安卓上的 Obsidian，把笔记「锁定」（= 标签页 pin）之后，**界面上看不出哪些笔记处于锁定状态**。
+This plugin makes the pinned state obvious: while the active note is pinned, the ⋯ button in the top-right corner of the note switches to a **lock icon** and turns **red**.
 
-## 当前状态
+| Not pinned | Pinned |
+|:---:|:---:|
+| ![More options button, not pinned](./images/normal.png) | ![More options button, pinned](./images/pinned.png) |
 
-**还没有写代码。** 已完成：需求梳理、Obsidian 源码调查、插件市场调研、方案确定。
+## Usage
 
-详细过程见 → [开发记录-2026-10-21-锁定状态方案.md](开发记录-2026-10-21-锁定状态方案.md)
+Nothing to configure.
 
-## 调查结论摘要
+1. Open a note.
+2. Pin the tab (right-click the tab and choose **Pin**, or run the **Toggle pin** command).
+3. The ⋯ button in the note header turns into a red lock icon.
 
-```
-Obsidian 源码 app.js：
-  "pinned"  出现 46 次
-  "lock"    出现 0 次
+Unpin the tab and the button returns to its normal appearance.
 
-i18n/zh.txt 680-681 行：
-  锁定 / 取消锁定
+The button keeps working as a menu — only its icon and color change.
 
-→ 中文的「锁定」就是英文 pin，作用对象是【标签页 leaf】，不是笔记文件
-→ 状态存在 workspace.json（桌面）/ workspace-mobile.json（手机），互不同步
-→ 唯一视觉提示是标签栏上的小图标，手机屏幕窄看不清
-```
+## How it works
 
-## 下一步（按顺序）
+Obsidian exposes the more options button of each view as `view.moreOptionsButtonEl`, and each leaf carries a `pinned` flag. The plugin reads the flag, swaps the button icon with `setIcon`, and toggles a CSS class that colors it.
 
-```
-1. 在 Ob测试库装 pinned-files（手机可用，文件列表出图钉）
-2. 同时装 pins-save（修复重启后锁定丢失）
-3. 两者都试完再决定要不要写自研插件
-```
+It listens on each leaf's `pinned-change` event, plus the workspace `layout-change` and `active-leaf-change` events. There is no polling and no background work.
 
-**自研方案技术路线**（已在源码确认可行）：
+A CSS snippet cannot do this, because Obsidian only applies `.is-pinned` to side drawers — there is no ancestor class on the tab itself, and `:has()` is not reliable on mobile.
 
-```js
-app.workspace.getLeavesOfType("markdown").filter(l => l.pinned).map(l => l.view.file.path);
-app.workspace.on("pinned-change", () => {});
-```
+## Installation
 
-## 本地开发目录
+### From the community directory
 
-```
-D:\dev\obsidian-display-lock
-```
+Search for **Display Lock** in **Settings → Community plugins → Browse**.
 
-## 相关
+### Manually
 
-- Gitea: http://192.168.5.115:3001/agent/obsidian-display-lock
-- 库里已装的相关插件：`password-protection` v1.1.34（密码保护笔记，与标签锁定无关）
-- 方案文档：`D:\syncthing\MyOpenclaw\Obsidian锁定状态显示_方案与插件推荐.md`
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](../../releases/latest).
+2. Create the folder `<your vault>/.obsidian/plugins/display-lock/`.
+3. Copy the three files into it.
+4. Reload Obsidian and enable **Display Lock** in **Settings → Community plugins**.
+
+### From source
+
+There is no build step — `main.js` is the source. Copy the three files as above.
+
+## Compatibility
+
+- Works on desktop and mobile (`isDesktopOnly: false`).
+- No third-party dependencies; the only `require` is the host `obsidian` module.
+- No network access, no telemetry, no file system access.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
+
+---
+
+## 中文说明
+
+Obsidian 的「锁定」（英文 Pin）作用是防止标签页被误关。但界面上只有一个很小的图标提示，手机上标签栏太窄，基本看不出来这篇笔记到底锁没锁。
+
+这个插件让锁定状态一眼可见：**当前笔记处于锁定状态时，右上角的 ⋯ 按钮会变成一个红色的锁图标**。解锁后自动变回三个点。
+
+**用法**：打开笔记 → 锁定标签页（右键标签选「锁定」，或用「解锁/锁定」命令）→ 右上角变成红色锁图标。按钮本身照常能点，只是图标和颜色变了。
+
+**原理**：读 `leaf.pinned` 状态，用 `setIcon` 换图标，加一个 CSS class 染色。监听每个标签页的 `pinned-change` 事件，不做轮询、不后台运行。
+
+**为什么不用 CSS 片段**：Obsidian 只给侧边抽屉加了 `.is-pinned`，标签页本身没有对应的祖先 class，纯 CSS 选不到；`:has()` 在手机端不保证可用。

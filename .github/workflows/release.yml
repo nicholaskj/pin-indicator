@@ -1,0 +1,48 @@
+name: Release Obsidian plugin
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 这个插件没有构建步骤，main.js 就是源码本身。
+      # 但仍然校验一下 manifest 里的版本和 tag 是否一致，避免发错版本。
+      - name: Verify tag matches manifest version
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          manifest_version=$(jq -r .version manifest.json)
+          echo "tag=$tag manifest=$manifest_version"
+          if [ "$tag" != "$manifest_version" ]; then
+            echo "::error::Tag ($tag) does not match manifest.json version ($manifest_version)"
+            exit 1
+          fi
+
+      # 提交官方目录审核时，签名过的构建来源证明（artifact attestation）是被推荐的
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            main.js
+            manifest.json
+            styles.css
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          gh release create "$tag" \
+            --title="$tag" \
+            --draft \
+            main.js manifest.json styles.css
