@@ -43,6 +43,6 @@ jobs:
         run: |
           tag="${GITHUB_REF#refs/tags/}"
           gh release create "$tag" \
-            --title="$tag" \
-            --draft \
+            --title="Pin Indicator $tag" \
+            --generate-notes \
             main.js manifest.json styles.css
